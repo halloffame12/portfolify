@@ -28,7 +28,7 @@ export default function LandingHero() {
                 >
                     {/* GitHub Badge */}
                     <a
-                        href="https://github.com/yourusername/portfolify"
+                        href="https://github.com/halloffame12/portfolify"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 hover:glow-effect transition-all"
