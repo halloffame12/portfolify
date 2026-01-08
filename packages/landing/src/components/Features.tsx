@@ -17,8 +17,8 @@ const features = [
     },
     {
         icon: Palette,
-        title: 'Multiple Premium Themes',
-        description: 'Choose from carefully crafted themes that look professional and modern.',
+        title: 'Modern Dark Theme',
+        description: 'A carefully crafted dark theme that looks professional, modern, and high-end.',
     },
     {
         icon: Smartphone,
