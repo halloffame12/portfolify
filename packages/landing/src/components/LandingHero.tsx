@@ -108,7 +108,7 @@ export default function LandingHero() {
                                 'font-semibold text-lg hover:glow-effect hover:scale-105 transition-all'
                             )}
                         >
-                            View Examples
+                            View Example
                         </a>
                     </motion.div>
 
