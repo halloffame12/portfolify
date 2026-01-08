@@ -1,0 +1,117 @@
+import path from 'path';
+import fs from 'fs-extra';
+import ora from 'ora';
+import chalk from 'chalk';
+import validateNpmPackageName from 'validate-npm-package-name';
+import { collectUserData } from '../prompts/index.js';
+import { generatePortfolio } from '../generator/index.js';
+import { logger } from '../utils/logger.js';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
+
+export async function generateCommand(projectName?: string): Promise<void> {
+    try {
+        // Get project name
+        let finalProjectName = projectName;
+
+        if (!finalProjectName) {
+            const inquirer = (await import('inquirer')).default;
+            const { name } = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'What is your project name?',
+                    default: 'my-portfolio',
+                    validate: (input) => {
+                        const validation = validateNpmPackageName(input);
+                        if (!validation.validForNewPackages) {
+                            return validation.errors?.[0] || 'Invalid project name';
+                        }
+                        return true;
+                    }
+                }
+            ]);
+            finalProjectName = name;
+        }
+
+        if (!finalProjectName) {
+            throw new Error('Project name is required');
+        }
+
+        // Validate project name
+        const validation = validateNpmPackageName(finalProjectName);
+        if (!validation.validForNewPackages) {
+            logger.error(`Invalid project name: ${validation.errors?.[0]}`);
+            process.exit(1);
+        }
+
+        const targetDir = path.resolve(process.cwd(), finalProjectName);
+
+        // Check if directory exists
+        if (await fs.pathExists(targetDir)) {
+            logger.error(`Directory "${finalProjectName}" already exists!`);
+            process.exit(1);
+        }
+
+        // Collect user data
+        logger.header('📝 Let\'s build your portfolio!');
+        const userData = await collectUserData();
+
+        // Generate portfolio
+        logger.header('🎨 Generating your portfolio...');
+        await generatePortfolio(finalProjectName, userData, targetDir);
+
+        // Install dependencies
+        logger.header('📦 Installing dependencies...');
+        const spinner = ora('Installing packages...').start();
+
+        try {
+            await execAsync('npm install', { cwd: targetDir });
+            spinner.succeed('Dependencies installed!');
+        } catch (error) {
+            spinner.warn('Failed to install dependencies automatically');
+            logger.info('You can install them manually by running: npm install');
+        }
+
+        // Initialize git
+        try {
+            await execAsync('git init', { cwd: targetDir });
+            await execAsync('git add .', { cwd: targetDir });
+            await execAsync('git commit -m "Initial commit from Portfolify"', { cwd: targetDir });
+            logger.success('Git repository initialized');
+        } catch (error) {
+            // Git init is optional, don't fail if it doesn't work
+        }
+
+        // Success message
+        printSuccessMessage(finalProjectName, userData.name);
+
+    } catch (error) {
+        logger.error('An error occurred during generation');
+        console.error(error);
+        process.exit(1);
+    }
+}
+
+function printSuccessMessage(projectName: string, userName: string): void {
+    console.log('\n');
+    console.log(chalk.green.bold('🎉 Success! Your portfolio is ready!'));
+    console.log('\n');
+    console.log(chalk.cyan('Next steps:'));
+    console.log(chalk.white(`  cd ${projectName}`));
+    console.log(chalk.white('  npm run dev'));
+    console.log('\n');
+    console.log(chalk.cyan('Deploy to:'));
+    console.log(chalk.white('  • Vercel: vercel'));
+    console.log(chalk.white('  • Netlify: netlify deploy'));
+    console.log(chalk.white('  • GitHub Pages: npm run build'));
+    console.log('\n');
+    console.log(chalk.magenta.bold('📢 Share your portfolio!'));
+    console.log(chalk.white('  Tweet about it with #Portfolify'));
+    console.log(chalk.white('  Star us on GitHub: https://github.com/halloffame12/portfolify'));
+    console.log('\n');
+    console.log(chalk.gray('Built with ❤️ using Portfolify'));
+    console.log('\n');
+}

@@ -1,0 +1,42 @@
+{
+    "name": "John Doe",
+    "role": "Full Stack Developer",
+    "bio": "Passionate developer building amazing web experiences with modern technologies.",
+    "skills": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Tailwind CSS"
+    ],
+    "projects": [
+        {
+            "name": "Example Project",
+            "description": "A cool project built with React and TypeScript",
+            "tech": [
+                "React",
+                "TypeScript",
+                "Vite"
+            ],
+            "github": "https://github.com/username/project",
+            "demo": "https://example.com"
+        }
+    ],
+    "enableBlog": true,
+    "social": {
+        "github": "username",
+        "linkedin": "username",
+        "twitter": "username",
+        "email": "hello@example.com"
+    },
+    "theme": {
+        "name": "Modern Dark",
+        "colors": {
+            "primary": "220 90% 56%",
+            "secondary": "280 80% 60%",
+            "accent": "340 82% 52%",
+            "background": "224 71% 4%",
+            "foreground": "213 31% 91%",
+            "muted": "223 47% 11%"
+        }
+    }
+}

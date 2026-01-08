@@ -1,0 +1,33 @@
+{
+    "name": "portfolify-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Portfolify - One-command portfolio generator for developers",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "dev:cli": "npm run dev --workspace=packages/cli",
+        "dev:template": "npm run dev --workspace=packages/template",
+        "dev:landing": "npm run dev --workspace=packages/landing",
+        "build:cli": "npm run build --workspace=packages/cli",
+        "build:template": "npm run build --workspace=packages/template",
+        "build:landing": "npm run build --workspace=packages/landing",
+        "build:all": "npm run build:cli && npm run build:template && npm run build:landing"
+    },
+    "keywords": [
+        "portfolio",
+        "generator",
+        "cli",
+        "developer",
+        "react",
+        "vite",
+        "tailwind"
+    ],
+    "author": "Sumit <halloffame12>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/halloffame12/portfolify"
+    }
+}
