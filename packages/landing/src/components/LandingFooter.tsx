@@ -33,7 +33,7 @@ export default function LandingFooter() {
                             Examples
                         </a>
                         <a
-                            href="https://github.com/yourusername/portfolify"
+                            href="https://github.com/halloffame12/portfolify"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-muted-foreground hover:text-foreground transition-colors"
@@ -53,7 +53,7 @@ export default function LandingFooter() {
                     {/* Social */}
                     <div className="flex gap-4">
                         <a
-                            href="https://github.com/yourusername/portfolify"
+                            href="https://github.com/halloffame12/portfolify"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
