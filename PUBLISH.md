@@ -63,6 +63,35 @@ This is the website where people will see your tool.
 
 Render will give you a URL like `portfolify.onrender.com`.
 
+## 🔄 How to Update (NPM & GitHub)
+
+Whenever you make changes to your code and want to push them live:
+
+### 1. Update on GitHub
+```bash
+# In the root folder
+git add .
+git commit -m "Describe your changes here"
+git push origin main
+```
+
+### 2. Update on npm
+To update the version on npm, you **must** change the version number in `packages/cli/package.json`.
+
+```bash
+cd packages/cli
+
+# Option A: Automatic version bump
+npm version patch   # 1.0.0 -> 1.0.1
+
+# Option B: Manual change
+# Open package.json and edit "version": "1.0.1"
+
+# Then Build & Publish
+npm run build
+npm publish
+```
+
 ---
 
 ## 5. Update Your GitHub Profile

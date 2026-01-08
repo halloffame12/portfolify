@@ -41,7 +41,7 @@ export default function LandingFooter() {
                             GitHub
                         </a>
                         <a
-                            href="https://github.com/yourusername/portfolify/blob/main/CONTRIBUTING.md"
+                            href="https://github.com/halloffame12/portfolify/blob/main/CONTRIBUTING.md"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-muted-foreground hover:text-foreground transition-colors"

@@ -60,10 +60,6 @@ Your portfolio will be available at http://localhost:5173`,
 \`\`\``,
                 },
                 {
-                    title: 'Theme Customization',
-                    content: `Themes are defined using CSS variables in \`src/styles/globals.css\`. You can customize colors by modifying the HSL values.`,
-                },
-                {
                     title: 'Adding Content',
                     content: `Add your projects, skills, and blog posts by editing the configuration file. All changes are hot-reloaded during development.`,
                 },

@@ -4,9 +4,13 @@ import ejs from 'ejs';
 
 export async function copyDirectory(src: string, dest: string): Promise<void> {
     await fs.copy(src, dest, {
-        filter: (src) => {
-            // Skip node_modules and build artifacts
-            return !src.includes('node_modules') && !src.includes('dist');
+        filter: (srcPath) => {
+            const basename = path.basename(srcPath);
+            // Skip node_modules and build artifacts at any level
+            if (basename === 'node_modules' || basename === 'dist') {
+                return false;
+            }
+            return true;
         }
     });
 }

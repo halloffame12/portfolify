@@ -1,6 +1,6 @@
 {
     "name": "@halloffame12/portfolify",
-    "version": "1.0.0",
+    "version": "1.0.6",
     "description": "One-command portfolio generator for developers",
     "main": "dist/index.js",
     "bin": {

@@ -4,7 +4,6 @@ import ora from 'ora';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { PortfolioData } from '../prompts/index.js';
-import { getTheme } from '../themes/index.js';
 import { copyDirectory, writeFile } from '../utils/file.js';
 import { logger } from '../utils/logger.js';
 
@@ -20,24 +19,64 @@ export async function generatePortfolio(
 
     try {
         // Determine template path
-        // In production (npm), templates are in ../templates relative to this file
-        // In development, they are in ../../../template
+        // In production (npm), templates are in ../templates relative to this file (dist/generator/index.js)
         let templatePath = path.resolve(__dirname, '../../templates');
 
-        // Fallback for local development if bundled templates don't exist
-        if (!await fs.pathExists(templatePath)) {
-            templatePath = path.resolve(__dirname, '../../../../template');
+        const isDebug = process.env.DEBUG === 'true';
+
+        if (isDebug) {
+            logger.info(`Template source path: ${templatePath}`);
+            logger.info(`Target destination: ${targetDir}`);
         }
+
+        // Check if template path exists
+        if (!await fs.pathExists(templatePath)) {
+            // Fallback for different environments
+            const fallbacks = [
+                path.resolve(__dirname, '../../../template'), // Local dev
+                path.resolve(__dirname, '../../../../packages/template'), // Monorepo
+                path.resolve(__dirname, '../templates'), // Alternative bundle structure
+            ];
+
+            let found = false;
+            for (const fallback of fallbacks) {
+                if (await fs.pathExists(fallback)) {
+                    templatePath = fallback;
+                    found = true;
+                    if (isDebug) logger.info(`Found template at: ${templatePath}`);
+                    break;
+                }
+            }
+
+            if (!found) {
+                throw new Error(`Template directory not found.`);
+            }
+        }
+
+        // Verify template folder is not empty
+        const templateFiles = await fs.readdir(templatePath);
+        if (templateFiles.length === 0) {
+            throw new Error(`Template directory is empty: ${templatePath}`);
+        }
+
+        // Ensure target directory exists
+        await fs.ensureDir(targetDir);
 
         // Copy template files
         spinner.text = 'Copying template files...';
         await copyDirectory(templatePath, targetDir);
 
+        // Verify package.json was copied
+        const packageCheckPath = path.join(targetDir, 'package.json');
+        if (!await fs.pathExists(packageCheckPath)) {
+            throw new Error(`Failed to copy template files.`);
+        }
+
         // Generate portfolio config
         spinner.text = 'Creating configuration...';
         const config = {
             ...data,
-            theme: getTheme(data.theme)
+            theme: data.theme
         };
 
         await writeFile(
@@ -46,44 +85,16 @@ export async function generatePortfolio(
         );
 
         // Update package.json with project name
-        const packageJsonPath = path.join(targetDir, 'package.json');
-        const packageJson = await fs.readJson(packageJsonPath);
+        const targetPackageJsonPath = path.join(targetDir, 'package.json');
+        const packageJson = await fs.readJson(targetPackageJsonPath);
         packageJson.name = projectName;
-        await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
+        await fs.writeJson(targetPackageJsonPath, packageJson, { spaces: 2 });
 
-        // Generate custom CSS with theme colors
-        spinner.text = 'Applying theme...';
-        const theme = getTheme(data.theme);
-        const customCSS = `
-@layer base {
-  :root {
-    --primary: ${theme.colors.primary};
-    --secondary: ${theme.colors.secondary};
-    --accent: ${theme.colors.accent};
-    --background: ${theme.colors.background};
-    --foreground: ${theme.colors.foreground};
-    --muted: ${theme.colors.muted};
-  }
-}
-`;
-
-        const globalCssPath = path.join(targetDir, 'src', 'styles', 'globals.css');
-        let globalCss = await fs.readFile(globalCssPath, 'utf-8');
-        globalCss = customCSS + '\n' + globalCss;
-        await fs.writeFile(globalCssPath, globalCss);
-
+        // Generate custom CSS with theme colors - REMOVED AS WE USE STATIC DARK THEME
         // Generate README
         spinner.text = 'Creating README...';
         const readme = generateReadme(projectName, data);
         await writeFile(path.join(targetDir, 'README.md'), readme);
-
-        // Remove blog files if not enabled
-        if (!data.enableBlog) {
-            const blogPath = path.join(targetDir, 'src', 'components', 'Blog.tsx');
-            if (await fs.pathExists(blogPath)) {
-                await fs.remove(blogPath);
-            }
-        }
 
         spinner.succeed('Portfolio generated successfully!');
     } catch (error) {

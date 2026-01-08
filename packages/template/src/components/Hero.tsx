@@ -37,6 +37,12 @@ export default function Hero({ data }: HeroProps) {
         },
     };
 
+    const normalizeLink = (url: string, baseUrl: string) => {
+        if (!url) return '';
+        if (url.startsWith('http') || url.startsWith('mailto:')) return url;
+        return `${baseUrl}/${url.replace(/^@/, '')}`;
+    };
+
     return (
         <section className="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden">
             {/* Animated background gradient */}
@@ -80,7 +86,7 @@ export default function Hero({ data }: HeroProps) {
                 >
                     {data.social.github && (
                         <a
-                            href={`https://github.com/${data.social.github}`}
+                            href={normalizeLink(data.social.github, 'https://github.com')}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
@@ -95,7 +101,7 @@ export default function Hero({ data }: HeroProps) {
 
                     {data.social.linkedin && (
                         <a
-                            href={`https://linkedin.com/in/${data.social.linkedin}`}
+                            href={normalizeLink(data.social.linkedin, 'https://linkedin.com/in')}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
@@ -110,7 +116,7 @@ export default function Hero({ data }: HeroProps) {
 
                     {data.social.twitter && (
                         <a
-                            href={`https://twitter.com/${data.social.twitter}`}
+                            href={normalizeLink(data.social.twitter, 'https://twitter.com')}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
@@ -125,7 +131,7 @@ export default function Hero({ data }: HeroProps) {
 
                     {data.social.email && (
                         <a
-                            href={`mailto:${data.social.email}`}
+                            href={data.social.email.startsWith('mailto:') ? data.social.email : `mailto:${data.social.email}`}
                             className={cn(
                                 'px-6 py-3 rounded-lg glass hover:glow-effect transition-all duration-300',
                                 'flex items-center gap-2 hover:scale-105 active:scale-95'

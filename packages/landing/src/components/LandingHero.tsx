@@ -124,8 +124,8 @@ export default function LandingHero() {
                             <div className="text-sm">Free & Open Source</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl font-bold gradient-text">5+</div>
-                            <div className="text-sm">Premium Themes</div>
+                            <div className="text-3xl font-bold gradient-text">Modern</div>
+                            <div className="text-sm">Dark Theme</div>
                         </div>
                         <div className="text-center">
                             <div className="text-3xl font-bold gradient-text">&lt;60s</div>

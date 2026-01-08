@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import { getThemeChoices } from '../themes/index.js';
 
 export interface Project {
     name: string;
@@ -77,16 +76,6 @@ export async function collectUserData(): Promise<PortfolioData> {
             name: 'enableBlog',
             message: 'Enable blog section?',
             default: true
-        },
-        {
-            type: 'list',
-            name: 'theme',
-            message: 'Choose a theme:',
-            choices: getThemeChoices().map(key => ({
-                name: key.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-                value: key
-            })),
-            default: 'modern-dark'
         }
     ]);
 
@@ -158,6 +147,6 @@ export async function collectUserData(): Promise<PortfolioData> {
             twitter: answers.twitter || undefined,
             email: answers.email || undefined
         },
-        theme: answers.theme
+        theme: 'modern-dark'
     };
 }

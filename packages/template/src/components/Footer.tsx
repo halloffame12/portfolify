@@ -14,6 +14,12 @@ interface FooterProps {
 export default function Footer({ social, name }: FooterProps) {
     const currentYear = new Date().getFullYear();
 
+    const normalizeLink = (url: string, baseUrl: string) => {
+        if (!url) return '';
+        if (url.startsWith('http') || url.startsWith('mailto:')) return url;
+        return `${baseUrl}/${url.replace(/^@/, '')}`;
+    };
+
     return (
         <footer className="py-12 px-4 border-t border-border/50 bg-muted/20">
             <div className="max-w-6xl mx-auto">
@@ -22,7 +28,7 @@ export default function Footer({ social, name }: FooterProps) {
                     <div className="flex gap-4">
                         {social.github && (
                             <a
-                                href={`https://github.com/${social.github}`}
+                                href={normalizeLink(social.github, 'https://github.com')}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={cn(
@@ -37,7 +43,7 @@ export default function Footer({ social, name }: FooterProps) {
 
                         {social.linkedin && (
                             <a
-                                href={`https://linkedin.com/in/${social.linkedin}`}
+                                href={normalizeLink(social.linkedin, 'https://linkedin.com/in')}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={cn(
@@ -52,7 +58,7 @@ export default function Footer({ social, name }: FooterProps) {
 
                         {social.twitter && (
                             <a
-                                href={`https://twitter.com/${social.twitter}`}
+                                href={normalizeLink(social.twitter, 'https://twitter.com')}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={cn(
@@ -67,7 +73,7 @@ export default function Footer({ social, name }: FooterProps) {
 
                         {social.email && (
                             <a
-                                href={`mailto:${social.email}`}
+                                href={social.email.startsWith('mailto:') ? social.email : `mailto:${social.email}`}
                                 className={cn(
                                     'p-3 rounded-full glass hover:glow-effect transition-all duration-300',
                                     'hover:scale-110 active:scale-95'
@@ -81,7 +87,7 @@ export default function Footer({ social, name }: FooterProps) {
 
                     {/* Built with Portfolify Badge */}
                     <a
-                        href="https://github.com/yourusername/portfolify"
+                        href="https://github.com/halloffame12/portfolify"
                         target="_blank"
                         rel="noopener noreferrer"
                         className={cn(
