@@ -31,13 +31,12 @@ Answer a few questions, and you're done! 🎉
 
 Check out portfolios built with Portfolify:
 
-- [Example 1](https://example1.com) - Modern Dark Theme
-- [Example 2](https://example2.com) - Gradient Theme
-- [Example 3](https://example3.com) - Minimal Theme
+- [Example 1](https://i.postimg.cc/D0q65Fxf/image.png) - Modern Dark Theme
+
 
 ## 📚 Documentation
 
-Visit [portfolify.dev](https://portfolify.dev) for full documentation.
+Visit [portfolify.dev](https://portfolify-x0re.onrender.com/) for full documentation.
 
 ## 🛠️ Tech Stack
 
