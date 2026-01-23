@@ -69,22 +69,25 @@ portfolify/
 
 ## Adding New Themes
 
-To add a new theme:
+To add a new theme, update `packages/cli/src/prompts/index.ts`:
 
-1. Add theme definition in `packages/cli/src/themes/index.ts`
-2. Use HSL color values for Tailwind CSS variables
-3. Test the theme with a generated portfolio
-4. Update documentation
+1. Add a new `ThemeConfig` entry to the `themes` array
+2. Define unique colors (HSL values), typography, and layout options
+3. Categories: `developer`, `designer`, `salon`, `photographer`, `startup`
+4. Test the theme with: `npx portfolify my-test --theme <your-theme>`
+5. Update documentation with the new theme
 
 ## Testing
 
 Before submitting a PR:
 
-1. Test CLI generation: `node dist/index.js test-portfolio`
-2. Verify the generated portfolio works
-3. Check all themes
-4. Test on different screen sizes
-5. Validate SEO tags
+1. Build the CLI: `cd packages/cli && npm run build`
+2. Test CLI generation: `npx portfolify test-portfolio --yes`
+3. Test each theme: `npx portfolify test --theme developer|designer|salon|photographer|startup`
+4. Verify the generated portfolio runs: `cd test-portfolio && npm run dev`
+5. Check all themes visually
+6. Test on different screen sizes
+7. Validate SEO tags
 
 ## Questions?
 

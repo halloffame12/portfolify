@@ -30,7 +30,7 @@ export default function LandingFooter() {
                             href="#examples"
                             className="text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            Examples
+                            Example
                         </a>
                         <a
                             href="https://github.com/halloffame12/portfolify"

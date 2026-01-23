@@ -22,21 +22,40 @@
         }
     ],
     "enableBlog": true,
+    "enableDarkMode": true,
+    "defaultDarkMode": true,
     "social": {
         "github": "username",
         "linkedin": "username",
         "twitter": "username",
-        "email": "hello@example.com"
+        "email": "hello@example.com",
+        "instagram": "",
+        "behance": "",
+        "dribbble": "",
+        "youtube": "",
+        "tiktok": "",
+        "phone": ""
     },
-    "theme": {
-        "name": "Modern Dark",
+    "theme": "modern-dark",
+    "themeConfig": {
+        "name": "Modern Developer",
+        "value": "modern-dark",
+        "category": "Developer",
         "colors": {
             "primary": "220 90% 56%",
             "secondary": "280 80% 60%",
             "accent": "340 82% 52%",
             "background": "224 71% 4%",
             "foreground": "213 31% 91%",
-            "muted": "223 47% 11%"
-        }
-    }
+            "muted": "223 47% 11%",
+            "backgroundLight": "0 0% 100%",
+            "foregroundLight": "224 71% 4%",
+            "mutedLight": "220 14% 96%"
+        },
+        "defaultRole": "Full Stack Developer",
+        "defaultSkills": ["React", "Node.js", "TypeScript", "Python", "AWS", "Docker"],
+        "emoji": "💻"
+    },
+    "siteUrl": "https://example.com",
+    "portfolioType": "Developer"
 }

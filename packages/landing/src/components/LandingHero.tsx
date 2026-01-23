@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 export default function LandingHero() {
     const [copied, setCopied] = useState(false);
-    const command = 'npx @halloffame12/portfolify my-portfolio';
+    const command = 'npx portfolify my-portfolio';
 
     const copyCommand = () => {
         navigator.clipboard.writeText(command);
@@ -45,9 +45,9 @@ export default function LandingHero() {
                     </h1>
 
                     <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto">
-                        Free, open-source portfolio generator for developers.
+                        Free, open-source portfolio generator with 5 stunning themes.
                         <br />
-                        One command. Beautiful results. No coding required.
+                        Developer • Designer • Salon • Photographer • Startup
                     </p>
 
                     {/* Command Box */}
@@ -120,12 +120,12 @@ export default function LandingHero() {
                         className="mt-16 flex flex-wrap justify-center gap-8 text-muted-foreground"
                     >
                         <div className="text-center">
-                            <div className="text-3xl font-bold gradient-text">100%</div>
-                            <div className="text-sm">Free & Open Source</div>
+                            <div className="text-3xl font-bold gradient-text">5</div>
+                            <div className="text-sm">Unique Themes</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl font-bold gradient-text">Modern</div>
-                            <div className="text-sm">Dark Theme</div>
+                            <div className="text-3xl font-bold gradient-text">100%</div>
+                            <div className="text-sm">Free & Open Source</div>
                         </div>
                         <div className="text-center">
                             <div className="text-3xl font-bold gradient-text">&lt;60s</div>

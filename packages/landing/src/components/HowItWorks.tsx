@@ -7,8 +7,8 @@ const steps = [
         icon: Terminal,
         number: '01',
         title: 'Run the Command',
-        description: 'Open your terminal and run npx @halloffame12/portfolify my-portfolio',
-        code: 'npx @halloffame12/portfolify my-portfolio',
+        description: 'Open your terminal and run npx portfolify my-portfolio',
+        code: 'npx portfolify my-portfolio',
     },
     {
         icon: MessageSquare,

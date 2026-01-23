@@ -159,6 +159,8 @@ export default function Hero({ data }: HeroProps) {
                 >
                     <a
                         href="#projects"
+                        title="Scroll to projects"
+                        aria-label="Scroll to projects section"
                         className="text-muted-foreground hover:text-foreground transition-colors animate-bounce"
                     >
                         <svg

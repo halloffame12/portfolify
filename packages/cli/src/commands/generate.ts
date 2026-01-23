@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import ora from 'ora';
 import chalk from 'chalk';
 import validateNpmPackageName from 'validate-npm-package-name';
-import { collectUserData } from '../prompts/index.js';
+import { collectUserData, getDefaultUserData, themes } from '../prompts/index.js';
 import { generatePortfolio } from '../generator/index.js';
 import { logger } from '../utils/logger.js';
 import { exec } from 'child_process';
@@ -11,29 +11,38 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-export async function generateCommand(projectName?: string): Promise<void> {
+interface GenerateOptions {
+    yes?: boolean;
+    theme?: string;
+}
+
+export async function generateCommand(projectName?: string, options: GenerateOptions = {}): Promise<void> {
     try {
         // Get project name
         let finalProjectName = projectName;
 
         if (!finalProjectName) {
-            const inquirer = (await import('inquirer')).default;
-            const { name } = await inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'name',
-                    message: 'What is your project name?',
-                    default: 'my-portfolio',
-                    validate: (input) => {
-                        const validation = validateNpmPackageName(input);
-                        if (!validation.validForNewPackages) {
-                            return validation.errors?.[0] || 'Invalid project name';
+            if (options.yes) {
+                finalProjectName = 'my-portfolio';
+            } else {
+                const inquirer = (await import('inquirer')).default;
+                const { name } = await inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'name',
+                        message: 'What is your project name?',
+                        default: 'my-portfolio',
+                        validate: (input) => {
+                            const validation = validateNpmPackageName(input);
+                            if (!validation.validForNewPackages) {
+                                return validation.errors?.[0] || 'Invalid project name';
+                            }
+                            return true;
                         }
-                        return true;
                     }
-                }
-            ]);
-            finalProjectName = name;
+                ]);
+                finalProjectName = name;
+            }
         }
 
         if (!finalProjectName) {
@@ -55,11 +64,29 @@ export async function generateCommand(projectName?: string): Promise<void> {
             process.exit(1);
         }
 
+        // Display welcome banner
+        console.log('\n');
+        console.log(chalk.cyan.bold('╔════════════════════════════════════════════════════════════╗'));
+        console.log(chalk.cyan.bold('║') + chalk.white.bold('  🚀 Portfolify - Create Beautiful Portfolios in Seconds  ') + chalk.cyan.bold('║'));
+        console.log(chalk.cyan.bold('╚════════════════════════════════════════════════════════════╝'));
+        console.log('\n');
+
         // Collect user data
-        logger.header('📝 Let\'s build your portfolio!');
-        const userData = await collectUserData();
+        let userData;
+        if (options.yes) {
+            // Use defaults with optional theme override
+            const themeValue = options.theme || 'developer';
+            const selectedTheme = themes.find(t => t.value === themeValue) || themes[0];
+            userData = getDefaultUserData(selectedTheme);
+            console.log(chalk.green(`✓ Using theme: ${selectedTheme.emoji} ${selectedTheme.name}`));
+            console.log(chalk.gray(`  Category: ${selectedTheme.category}`));
+            console.log(chalk.gray(`  Style: ${selectedTheme.layout.heroStyle} hero layout`));
+        } else {
+            userData = await collectUserData();
+        }
 
         // Generate portfolio
+        console.log('\n');
         logger.header('🎨 Generating your portfolio...');
         await generatePortfolio(finalProjectName, userData, targetDir);
 

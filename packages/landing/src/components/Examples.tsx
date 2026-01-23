@@ -1,12 +1,47 @@
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { Code, Palette, Scissors, Camera, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const examples = [
     {
-        name: 'Modern Developer Portfolio',
-        image: 'https://i.postimg.cc/D0q65Fxf/image.png',
-        url: '#',
+        name: 'Developer Portfolio',
+        theme: 'developer',
+        icon: Code,
+        description: 'Clean, code-inspired design with terminal aesthetics',
+        command: 'npx portfolify dev --theme developer',
+        color: 'from-emerald-500 to-cyan-500',
+    },
+    {
+        name: 'Designer Portfolio',
+        theme: 'designer',
+        icon: Palette,
+        description: 'Bold gradients with creative, asymmetric layouts',
+        command: 'npx portfolify design --theme designer',
+        color: 'from-pink-500 to-violet-500',
+    },
+    {
+        name: 'Salon & Spa',
+        theme: 'salon',
+        icon: Scissors,
+        description: 'Elegant typography for beauty & wellness',
+        command: 'npx portfolify spa --theme salon',
+        color: 'from-rose-400 to-amber-400',
+    },
+    {
+        name: 'Photographer',
+        theme: 'photographer',
+        icon: Camera,
+        description: 'Gallery-focused, minimal, image-first design',
+        command: 'npx portfolify photo --theme photographer',
+        color: 'from-gray-600 to-gray-400',
+    },
+    {
+        name: 'Startup Landing',
+        theme: 'startup',
+        icon: Rocket,
+        description: 'Modern SaaS style for founders & entrepreneurs',
+        command: 'npx portfolify launch --theme startup',
+        color: 'from-blue-500 to-indigo-500',
     },
 ];
 
@@ -41,10 +76,10 @@ export default function Examples() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        Example <span className="gradient-text">Portfolio</span>
+                        Theme <span className="gradient-text">Examples</span>
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        See what you can build with Portfolify
+                        Pick a theme and start building in seconds
                     </p>
                 </motion.div>
 
@@ -53,40 +88,32 @@ export default function Examples() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="flex justify-center"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
                     {examples.map((example, index) => (
-                        <motion.a
+                        <motion.div
                             key={index}
-                            href={example.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             variants={cardVariants}
                             whileHover={{ scale: 1.02, y: -5 }}
                             className={cn(
                                 'glass rounded-xl overflow-hidden hover:glow-effect transition-all duration-300',
-                                'border border-border/50 hover:border-primary/50 group max-w-4xl w-full'
+                                'border border-border/50 hover:border-primary/50 group'
                             )}
                         >
-                            <div className="aspect-video bg-muted relative overflow-hidden">
-                                <img
-                                    src={example.image}
-                                    alt={example.name}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                                    <div className="flex items-center gap-2 text-sm font-medium">
-                                        <ExternalLink className="w-4 h-4" />
-                                        View Demo
-                                    </div>
+                            <div className={cn(
+                                'h-32 bg-gradient-to-br flex items-center justify-center',
+                                example.color
+                            )}>
+                                <example.icon className="w-16 h-16 text-white/90" />
+                            </div>
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold mb-2">{example.name}</h3>
+                                <p className="text-muted-foreground text-sm mb-4">{example.description}</p>
+                                <div className="glass rounded-lg p-3 border border-border/30">
+                                    <code className="text-xs font-mono text-primary">{example.command}</code>
                                 </div>
                             </div>
-                            <div className="p-8 text-center">
-                                <h3 className="text-2xl font-bold gradient-text">
-                                    {example.name}
-                                </h3>
-                            </div>
-                        </motion.a>
+                        </motion.div>
                     ))}
                 </motion.div>
             </div>
